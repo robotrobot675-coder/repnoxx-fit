@@ -1,11 +1,5 @@
 """REPNOXX Cloud Sync Server — deploy to PythonAnywhere (free)
-   
-   Steps:
-   1. Create free account at pythonanywhere.com
-   2. Go to Web tab → Add a new web app → Manual config → Python 3.10
-   3. Upload this file as /home/yourusername/mysite/flask_app.py
-   4. In Web tab → WSGI configuration file, point to this file
-   5. Reload → done!
+   See pythonanywhere-setup.txt for full instructions.
 """
 
 import os, json, hashlib

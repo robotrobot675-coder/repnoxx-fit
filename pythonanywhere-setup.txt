@@ -1,0 +1,64 @@
+REPNOXX Cloud Sync — PythonAnywhere Setup Guide
+================================================
+
+Step 1: Sign up at pythonanywhere.com
+  - Go to https://www.pythonanywhere.com/
+  - Click "Pricing & Signup" > "Create a Beginner Account" (Free!)
+  - Username: thisisrepnoxx (ya jo chahe)
+  - Email: thisisrepnoxx@gmail.com
+
+Step 2: Open a Bash console
+  - Dashboard > "Bash" button (top-right)
+
+Step 3: Clone your GitHub repo
+  In the Bash console, type:
+    git clone https://github.com/robotrobot675-coder/webrepnoxx.github.io.git
+    cd webrepnoxx.github.io
+
+Step 4: Create a virtual environment with Flask
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install flask
+
+Step 5: Go to Web tab (top menu)
+  - Click "Add a new web app"
+  - Click "Manual configuration"
+  - Python version: 3.10
+  - Next
+
+Step 6: Configure the web app
+  In the Web tab, set these:
+  
+  a) Source code: /home/thisisrepnoxx/webrepnoxx.github.io
+  
+  b) Working directory: /home/thisisrepnoxx/webrepnoxx.github.io
+  
+  c) Virtual env: click the red "X" next to the existing one
+     Then type: /home/thisisrepnoxx/webrepnoxx.github.io/venv
+  
+  d) **WSGI configuration file** — click the link to edit it
+     Delete everything and paste this:
+
+import sys
+import os
+path = '/home/thisisrepnoxx/webrepnoxx.github.io'
+if path not in sys.path:
+    sys.path.insert(0, path)
+from cloud_sync_server import app as application
+
+  (Replace 'thisisrepnoxx' with your actual username)
+  
+  e) Click **Reload** (green button)
+
+Step 7: Verify
+  Visit: https://thisisrepnoxx.pythonanywhere.com/api/sync/download?email=test&password=test
+  (Replace 'thisisrepnoxx' with your username)
+
+Step 8: Configure in the app
+  - Open your app on any device
+  - Profile > Cloud Sync
+  - In "Cloud URL" field, enter: https://thisisrepnoxx.pythonanywhere.com
+  - Set password
+  - Click Push
+
+Now your sync server runs 24/7 on PythonAnywhere!
