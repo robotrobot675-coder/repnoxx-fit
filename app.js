@@ -556,7 +556,7 @@ class RepnoxxApp {
         }
 
         // Smooth scroll to top of viewport
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
     }
 
     // Launch Video Modal Screen
@@ -830,9 +830,10 @@ class RepnoxxApp {
             return;
         }
 
-        filtered.forEach(ex => {
+        filtered.forEach((ex, idx) => {
             const card = document.createElement("div");
             card.className = "workout-ex-card animate-slide-up";
+            card.style.animationDelay = `${idx * 0.05}s`;
             
             // Check completed sets state to see if card needs a completed style
             const isCompleted = this.checkExerciseCompleted(ex.id, ex.sets);
@@ -906,9 +907,10 @@ class RepnoxxApp {
             return;
         }
 
-        this.homeWorkouts.forEach(ex => {
+        this.homeWorkouts.forEach((ex, idx) => {
             const card = document.createElement("div");
             card.className = "workout-ex-card animate-slide-up";
+            card.style.animationDelay = `${idx * 0.05}s`;
             
             const isCompleted = this.checkExerciseCompleted(ex.id, ex.sets);
             if (isCompleted) {

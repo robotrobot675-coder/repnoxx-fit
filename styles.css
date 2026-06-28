@@ -83,21 +83,22 @@ body::before {
 
 .card {
     background: var(--bg-card);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 28px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
     position: relative;
     overflow: hidden;
+    will-change: transform;
     
     transform-style: preserve-3d;
     transform: perspective(1200px) 
                rotateX(calc(var(--scroll-rotate-x, 0deg) + var(--rotate-x, 0deg))) 
                rotateY(var(--rotate-y, 0deg)) 
                translateZ(var(--scroll-translate-z, 0px));
-    transition: transform 0.1s ease-out, border-color 0.5s ease, box-shadow 0.5s ease, opacity 0.4s ease;
+    transition: transform 0.2s ease-out, border-color 0.5s ease, box-shadow 0.5s ease, opacity 0.4s ease;
 }
 
 .card::before {
@@ -243,10 +244,27 @@ body::before {
 
 .tab-content {
     display: none;
+    animation: none;
 }
 
 .tab-content.active {
     display: block;
+    animation: tabFadeIn 0.35s ease-out;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
 .hero-banner {
@@ -1140,6 +1158,7 @@ body::before {
 
 .diet-sub-content.active {
     display: block;
+    animation: tabFadeIn 0.3s ease-out;
 }
 
 .diet-intro-card {
@@ -1861,6 +1880,7 @@ body::before {
 
 .scanner-pane.active {
     display: block;
+    animation: tabFadeIn 0.3s ease-out;
 }
 
 /* Camera View */
@@ -2527,19 +2547,23 @@ body::before {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 10px 50px rgba(0,0,0,0.6);
-    display: none;
+    display: flex;
     flex-direction: column;
     z-index: 1001;
     overflow: hidden;
-    animation: fadeSlideUp 0.3s ease;
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .chat-panel.open {
-    display: flex;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
 
-@keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+.chat-msg {
+    animation: fadeSlideUp 0.25s ease-out;
 }
 
 .chat-header {
@@ -2722,7 +2746,7 @@ body::before {
     color: var(--primary);
 }
 .progress-pane { display: none; }
-.progress-pane.active { display: block; }
+.progress-pane.active { display: block; animation: tabFadeIn 0.3s ease-out; }
 
 .logger-form, .measure-form, .rm-form {
     max-width: 480px;
@@ -2972,5 +2996,45 @@ body::before {
     }
     .log-input.half {
         width: 100%;
+    }
+}
+
+/* --- Global Button Active State --- */
+.nav-btn:active,
+.filter-btn:active,
+.scanner-tab:active,
+.progress-tab:active,
+.diet-tab-btn:active,
+.log-submit-btn:active,
+.submit-btn:active,
+.outline-btn:active,
+.apply-btn:active,
+.add-new-btn:active,
+.set-check-btn:active,
+.quick-add-confirm:active,
+.capture-btn:active,
+.upload-btn:active,
+.chat-fab:active,
+.login-btn:active {
+    transform: scale(0.96) !important;
+    transition-duration: 0.05s !important;
+}
+
+/* Modal entrance animation */
+.modal.active .modal-content {
+    animation: scaleIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Will-change for smooth animations */
+.quick-add-popup {
+    will-change: transform, opacity;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
